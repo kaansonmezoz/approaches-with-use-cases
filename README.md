@@ -13,3 +13,6 @@ Repository's file hierarchy:
     │   │   └── src 
     │   ...
     ...
+
+
+    NOTE: All the other README.mds except this one, are in Turkish. They will be translated into English.
