@@ -1,13 +1,13 @@
-Problem Hakkında Biraz Detay
+# Problem Hakkında Biraz Detay
 
 NOSQL (Couchbase) veritabanının aynı bucket'ı içerisine birden fazla çeşitli döküman kaydediliyor. Veritabanını açıp incelediğimiz zaman hangi dökümanının hangi entity'e ait oldukları kolayca anlaşılmıyor. Buna çözüm olarak dökümanların id'lerinin başlarına ait oldukları entity tipinin adının yazılmasına karar veriliyor. Yani ClassName:Id seklinde oluyor bir dökümanının id'si. ClassName: kısmının (bu kısma prefix diyeceğiz) clienta gösterilmemesi gerekli. Bunun içeride halledilmesi gerekli.
 
 İki tip entitymiz var: ApprovedStaticContract ve ApprovedDynamicContract.
 Id ile ilgili işlemlerin entity classlarında yapılması gerekli. Diğer class'lar bu entityleri yaratırken ya da kullanırken onlara id'nin nasıl üretildiği ne şekilde olduğu gibi bilgiler gerekli değil. Nasıl üretildiğini bilmelerine gerek yok ve id'leri üretmek de diğer sınıfların sorumluluğunda değil. Diğer sınıflara göre id'ler rastgele(!) üretiliyor. Dolayısıyla bu diğer sınıflar bu entity sınıflarını yaratırlarken id alanını set etmeyecek, parametre olarak bu alanı değil diğer gerekli alanları gönderecek.
 
-Entity Sınıflarımız
+## Entity Sınıflarımız
 
-    ApprovedStaticContract.java
+### ApprovedStaticContract.java
 
    public class ApprovedStaticContract {
        protected String id;
@@ -20,7 +20,7 @@ Entity Sınıflarımız
        protected Date approvalDate;
    }
 
-    ApprovedDynamicContract.java
+### ApprovedDynamicContract.java
 
    public class ApprovedDynamicContract extends ApprovedStaticContract {
       private String jsonData;
@@ -29,11 +29,11 @@ Entity Sınıflarımız
 
    }
 
-Adım - 1 : Constructorların oluşturulması
+## Adım - 1 : Constructorların oluşturulması
 
 Aşağıdaki constructlar diğer sınıfların bu ilgili entityleri yaratabilmesi için kullanmasına izin verdiğimiz constructorlardır.
 
-    ApprovedStaticContract.java
+### ApprovedStaticContract.java
 
     public ApprovedStaticContract(String contractTypeId, String versionCode, String userId,          
                                   String userIp, String userAgent, String platform, Date approvalDate){
@@ -48,7 +48,7 @@ Aşağıdaki constructlar diğer sınıfların bu ilgili entityleri yaratabilmes
         this.versionCode = versionCode;
     }
 
-    ApprovedDynamicContract.java
+    ### ApprovedDynamicContract.java
     
     public ApprovedDynamicContract(String contractTypeId, String versionCode, String userId,
                                   String userIp, String userAgent, String platform, Date approvalDate,
@@ -64,9 +64,9 @@ Aşağıdaki constructlar diğer sınıfların bu ilgili entityleri yaratabilmes
 
 Id'ye değer atama işlemi iki yerde de yapılmış oluyor DynamicContract için. Aslında bunların aralarındaki tek fark prefixleri yoksa id'lerinin üretilme mantığı aynı. Ve halihazırda parent class'ta setlenme işlemi yapılmakta. Bizim yapmamız gereken bu prefix'i parametrik hale getirerek istediğimiz bir şekilde id'nin setlenmesini sağlamak. By sayede hem kodtaki tekrardan da kurtulmuş olacağız.
 
-Adım - 2 : Prefix'in Parametreleştirilmesi 
+## Adım - 2 : Prefix'in Parametreleştirilmesi 
 
-    ApprovedStaticContract.java
+### ApprovedStaticContract.java
 
     public ApprovedStaticContract(String idSignature, String contractTypeId, String versionCode, String userId,
                                     String userIp, String userAgent, String platform, Date approvalDate){
@@ -81,7 +81,7 @@ Adım - 2 : Prefix'in Parametreleştirilmesi
         this.versionCode = versionCode;
     }
 
-    ApprovedDynamicContract.java
+### ApprovedDynamicContract.java
 
     public ApprovedDynamicContract(String contractTypeId, String versionCode, String userId,
                                     String userIp, String userAgent, String platform, Date approvalDate,
@@ -98,9 +98,9 @@ Evet bu şekilde yaptığımız zaman işimiz çözülmüş gibi duruyor. Ama bu
 
 Onun yerine iki constructor yaratsak ? Bir tanesi disaridan id'yi alsın parametre olarak. Bir digeri ise bu objeyi yaratan nesneden gerekli field'ları alsın. Access modifier olarak protected secmemizin sebebi ise Dynamic contract'ın parent'a ait olan constructorları cagirabilmesi. Eger private yaparsak child class'lar cagiramaz o constructorı ve bizim de o field'ları child icinde set etmemiz gerekir bu da kod tekrarına neden olacaktır.
 
-Adım - 3 : Parent Class'a İkinci Constructorın Eklenmesi
+## Adım - 3 : Parent Class'a İkinci Constructorın Eklenmesi
 
-    ApprovedStaticContract.java
+### ApprovedStaticContract.java
 
     protected ApprovedStaticContract(String idSignature, String contractTypeId, String versionCode, String userId,
                                   String userIp, String userAgent, String platform, Date approvalDate){
@@ -123,7 +123,7 @@ Adım - 3 : Parent Class'a İkinci Constructorın Eklenmesi
     }
 
 
-    ApprovedDynamicContract.java
+### ApprovedDynamicContract.java
 
     public ApprovedDynamicContract(String contractTypeId, String versionCode, String userId,
                                    String userIp, String userAgent, String platform, Date approvalDate,
