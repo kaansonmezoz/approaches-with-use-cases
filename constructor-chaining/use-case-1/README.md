@@ -132,7 +132,8 @@ Onun yerine iki constructor yaratsak ? Bir tanesi disaridan id'yi alsın paramet
                                    String userIp, String userAgent, String platform, Date approvalDate,
                                    String searchKey, String searchValue, String jsonData){
 
-        super("ApprovedDynamicContract",contractTypeId, versionCode, userId, userIp, userAgent, platform, approvalDate);
+        super("ApprovedDynamicContract",contractTypeId, versionCode, userId, 
+               userIp, userAgent, platform, approvalDate);
 
         this.searchKey = searchKey;
         this.searchValue = searchValue;
