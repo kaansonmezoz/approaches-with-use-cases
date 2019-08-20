@@ -51,7 +51,7 @@ Aşağıdaki constructlar diğer sınıfların bu ilgili entityleri yaratabilmes
         this.versionCode = versionCode;
     }
 
-    ### ApprovedDynamicContract.java
+### ApprovedDynamicContract.java
     
     public ApprovedDynamicContract(String contractTypeId, String versionCode, String userId,
                                   String userIp, String userAgent, String platform, Date approvalDate,
@@ -90,7 +90,8 @@ Id'ye değer atama işlemi iki yerde de yapılmış oluyor DynamicContract için
                                     String userIp, String userAgent, String platform, Date approvalDate,
                                     String searchKey, String searchValue, String jsonData){
 
-        super("ApprovedDynamicContract",contractTypeId, versionCode, userId, userIp, userAgent, platform, approvalDate);
+        super("ApprovedDynamicContract",contractTypeId, versionCode, 
+               userId, userIp, userAgent, platform, approvalDate);
 
         this.searchKey = searchKey;
         this.searchValue = searchValue;
