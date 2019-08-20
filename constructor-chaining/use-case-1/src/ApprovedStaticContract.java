@@ -11,10 +11,10 @@ public class ApprovedStaticContract{
     protected String platform;
     protected Date approvalDate;
 
-    public ApprovedStaticContract(String contractTypeId, String versionCode, String userId,
-                                  String userIp, String userAgent, String platform, Date approvalDate){
+    public ApprovedStaticContract(String idSignature, String contractTypeId, String versionCode, String userId,
+                                    String userIp, String userAgent, String platform, Date approvalDate){
 
-        this.id = "ApprovedStaticContract:" + UUID.randomUUID().toString();
+        this.id =  idSignature + ":" + UUID.randomUUID().toString();
         this.approvalDate = approvalDate;
         this.userId = userId;
         this.userIp = userIp;
@@ -23,4 +23,5 @@ public class ApprovedStaticContract{
         this.userAgent = userAgent;
         this.versionCode = versionCode;
     }
+
 }
