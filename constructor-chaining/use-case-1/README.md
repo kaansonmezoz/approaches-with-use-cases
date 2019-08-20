@@ -9,7 +9,7 @@ Id ile ilgili işlemlerin entity classlarında yapılması gerekli. Diğer class
 
 ### ApprovedStaticContract.java
 
-   `
+   ```
    public class ApprovedStaticContract {
        protected String id;
        protected String contractTypeId;
@@ -20,18 +20,17 @@ Id ile ilgili işlemlerin entity classlarında yapılması gerekli. Diğer class
        protected String platform;
        protected Date approvalDate;
    }
-   `
+   ```
 
 ### ApprovedDynamicContract.java
 
-   `
+   ```
    public class ApprovedDynamicContract extends ApprovedStaticContract {
       private String jsonData;
       private String searchKey;
       private String searchValue;
-
    }
-   `
+   ```
 
 ## Adım - 1 : Constructorların oluşturulması
 
